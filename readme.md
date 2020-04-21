@@ -8,7 +8,9 @@ When run, you get a random:
 - chapter from the New Testament
 - Proverb
 
-Each will be printed to stdout, and also will be opened on biblegateway.com in your browser.
+Each will be printed to stdout.
+
+If you use the -browser flag, it will open each in your default browser as well.
 
 ## Build instructions
 
