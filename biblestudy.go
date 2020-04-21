@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -15,7 +16,9 @@ func OpenInBrowser(bookname string, chapter int) {
 	sb.WriteString(bookname)
 	sb.WriteString("+")
 	sb.WriteString(strconv.Itoa(chapter))
-	sb.WriteString("&version=KJV")
+	sb.WriteString("&version=")
+	sb.WriteString("KJV")
+	// sb.WriteString(bibleVersion)
 
 	url := sb.String()
 	// Fix blank spaces
@@ -23,18 +26,20 @@ func OpenInBrowser(bookname string, chapter int) {
 	Open(url)
 }
 
-func getPsalmsOrProverb(b *Book) {
+func getPsalmsOrProverb(b *Book, browserToggle bool) {
 	r := rand.Intn(b.Chapters)
 	if r == 0 {
 		r = 1
 	}
 
-	OpenInBrowser(b.Name, r)
+	if browserToggle {
+		OpenInBrowser(b.Name, r)
+	}
 
 	fmt.Println(b.Name, r)
 }
 
-func getRandomChapter(testament int, bible []Book) {
+func getRandomChapter(testament int, bible []Book, browserToggle bool) {
 	if testament == OldTestament {
 		r := rand.Intn(39)
 		b := bible[r]
@@ -49,7 +54,9 @@ func getRandomChapter(testament int, bible []Book) {
 			r = 1
 		}
 
-		OpenInBrowser(b.Name, r)
+		if browserToggle {
+			OpenInBrowser(b.Name, r)
+		}
 
 		fmt.Println(b.Name, r)
 	}
@@ -64,28 +71,32 @@ func getRandomChapter(testament int, bible []Book) {
 			r = 1
 		}
 
-		OpenInBrowser(b.Name, r)
+		if browserToggle {
+			OpenInBrowser(b.Name, r)
+		}
 
 		fmt.Println(b.Name, r)
 	}
 }
 
 func main() {
+
+	browserToggle := flag.Bool("browser", false, "Open selected verses on biblegateway.com in your default browser.")
+	// I attempted to implement a flag for choosing a translation when opening biblegateway, but it doesn't work on their end
+	// bibleVersion := flag.String("version", "KJV", "Choose which translation to open on biblegateway.com. For example: KJV, DRA, WYC")
+	flag.Parse()
+
 	bible, Psalms, Proverbs := InitializeBible()
 	rand.Seed(time.Now().UnixNano())
 
 	fmt.Println("Bible study for today:")
 
-	// Get random Psalms
-	getPsalmsOrProverb(&Psalms)
+	getPsalmsOrProverb(&Psalms, *browserToggle)
 
-	// Get random Old Testament chapter
-	getRandomChapter(OldTestament, bible)
+	getRandomChapter(OldTestament, bible, *browserToggle)
 
-	// Get random New Testament chapter
-	getRandomChapter(NewTestament, bible)
+	getRandomChapter(NewTestament, bible, *browserToggle)
 
-	// Get random Proverb
-	getPsalmsOrProverb(&Proverbs)
+	getPsalmsOrProverb(&Proverbs, *browserToggle)
 
 }
