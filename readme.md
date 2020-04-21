@@ -18,5 +18,5 @@ After that I manually copy and paste to a scripts directory I have added to PATH
 
 ## TO DO
 Flags for the following
-- Enable or disable opening in browser
-- Choose Bible translation to read on biblegateway
+- ~~Enable or disable opening in browser~~
+- Choose Bible translation to read on biblegateway (Tried implementing already but doesn't work, appears to be a problem on biblegateway)
