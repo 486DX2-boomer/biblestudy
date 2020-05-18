@@ -16,6 +16,8 @@ If you use the -browser flag, it will open each in your default browser as well.
 
 `go build biblestudy.go bible.go browser.go`
 
+That's how I do it but I just found out you can also do `go build .`
+
 After that I manually copy and paste to a scripts directory I have added to PATH.
 
 ## TO DO
